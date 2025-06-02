@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de Aura</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000; /* Fundo PRETO total */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #f0f2f5; /* Cor do texto padrão para contraste no fundo preto */
+        }
+
+        .container {
+            background-color: #333333; /* Fundo da caixa principal CINZA ESCURO */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra mais escura para contraste */
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            color: #f0f2f5; /* Cor do texto dentro da caixa principal para contraste no cinza escuro */
+        }
+
+        h1 {
+            color: #FFFF00; /* Amarelo puro para o título */
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-family: 'Impact', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            color: #A9A9A9; /* Cinza para o subtítulo */
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            height: 120px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #555555; /* Borda mais escura para combinar com o fundo */
+            border-radius: 8px;
+            font-size: 1.1em;
+            resize: vertical;
+            box-sizing: border-box;
+            background-color: #444444; /* Um cinza um pouco mais claro para a área de texto */
+            color: #ffffff; /* Cor do texto dentro da textarea (branco) */
+        }
+
+        button {
+            background-color: #FF1493; /* Rosa Choque para o botão */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #C71585; /* Rosa Choque mais escuro no hover */
+            transform: translateY(-2px);
+        }
+
+        #resultadoAura {
+            margin-top: 25px;
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #FFFF00; /* Amarelo puro para o texto do resultado */
+            min-height: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .mensagem-aura {
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #777;
+        }
+
+        /* Classes de cor para a mensagem de aura (mantidas, caso queira reativar ou usar para algo mais) */
+        .aura-milionaria { color: #FFFF00; }
+        .aura-mega-incrivel { color: #FF1493; }
+        .aura-super-boa { color: #8A2BE2; }
+        .aura-boa { color: #4CAF50; }
+        .aura-neutra { color: #A9A9A9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MEDIDOR DE AURA</h1>
+        <p class="subtitle">calcule a aura de palavras e frases, de 10k a 1M</p>
+        <textarea id="textoAura" placeholder="Ex: 'Sinto um vazio existencial, mas essa foda-se a vida me dá 1 MILHÃO de pontos!'"></textarea>
+        <button onclick="calcularAura()">Calcular Aura</button>
+        <div id="resultadoAura"></div>
+        <div class="mensagem-aura" id="mensagemAura"></div>
+    </div>
+
+    <script>
+        function calcularAura() {
+            const texto = document.getElementById('textoAura').value;
+            const resultadoAuraDiv = document.getElementById('resultadoAura');
+            const mensagemAuraDiv = document.getElementById('mensagemAura');
+
+            const palavrasMilhaoAura = {
+                "morte": 1000000,
+                "foda-se": 1000000,
+                "fodasse": 1000000,
+                "puta que pariu": 1000000,
+                "vazio existencial": 1000000,
+                "colapso": 1000000,
+                "morto por dentro": 1000000,
+                "sem mim": 1000000,
+                "fim": 1000000,
+                "último suspiro": 1000000,
+                "inferno": 1000000,
+                "desespero": 1000000,
+                "autodestruição": 1000000,
+                "maldição": 1000000,
+                "condenação": 1000000,
+                "morte lenta": 1000000,
+                "existir dói": 1000000,
+                "escuridão total": 1000000
+            };
+
+            const palavrasAuraMegaScore = {
+                "dor": 10500, "alma": 10100, "vazio": 11000, "sofrimento": 11000, "lágrima": 10700,
+                "cicatriz": 10500, "perda": 10800, "solidão": 10700, "saudade": 10600, "angústia": 10900,
+                "ansiedade": 10800, "trauma": 11000, "saudades": 10600, "caos": 10800,
+                "ruína": 11000, "abismo": 11000, "tristeza": 10700, "mágoa": 10700, "melancolia": 10600,
+                "sombra": 10500, "escuridão": 10500, "ausência": 10600, "conflito": 10500, "resignação": 10300,
+                "isolamento": 10700, "culpa": 10800, "castigo": 10900, "alienação": 10800,
+                "tormenta": 10800, "luto": 11000, "trevas": 10700, "veneno": 10800,
+                "quebrado": 10700, "frio": 10500, "destruído": 11000, "abandonado": 10800, "só": 10600,
+                "perdido": 10700, "incompreendido": 10600, "esgotado": 10700, "desacreditado": 10800,
+                "cansado": 10500, "chorar": 10700, "deep": 10500, "dark": 10600,
+                "invisível": 10700, "vazio emocional": 11000, "lamento": 10700, "tanto faz": 10500,
+                "crise": 10700, "desilusão": 10800, "agonia": 10900, "ressentimento": 10600, "nostalgia": 10400,
+                "opressão": 10700, "desapego": 10400, "aflição": 10800, "fracasso": 10900, "insónia": 10600,
+                "sombra eterna": 11000, "fingimento": 10500, "perdição": 11000,
+                "remorso": 10800, "loucura": 10900, "fantasia": 10200, "desprezo": 10800,
+                "fuga": 10500, "despedida": 10700, "partida": 10600, "ilusório": 10400, "devaneio": 10200, "fardo": 10700,
+                "prisão": 10800, "conflito interno": 10700, "culpado": 10800, "errado": 10600, "espera": 10300,
+                "silencioso": 10400, "desfecho": 10300, "poeira": 10500, "cinzas": 10600, "eco": 10300,
+                "vazio cósmico": 11000, "inércia": 10500, "agonia mental": 11000, "solidão profunda": 10900,
+                "amargura": 10700, "grito": 10600, "eco do passado": 10700, "silêncio sepulcral": 10800,
+                "apagado": 10600, "lembrança esquecida": 10500, "fragmentado": 10700, "delírio": 10600,
+                "fantasma do ontem": 10800, "implosão": 10900, "labirinto": 10500, "fantasia perdida": 10700,
+                "tempo parado": 10600, "sem rumo": 10700, "sem voz": 10600, "sem cor": 10600,
+                "sem fé": 10800, "choro mudo": 10700, "peso": 10700,
+                "olhar vazio": 10800, "respirar dói": 10900, "acabar": 10800,
+                "caída": 10700, "sem volta": 10900, "sem nada": 11000, "esvaziado": 10800, "confuso": 10500,
+                // Palavrões e termos vulgares (alguns se tornam 1 milhão, o resto fica aqui)
+                "pilinha": 10300, "pau": 10300, "piroca": 10300, "poh caralho": 11000, "caralho": 10800, "caguei": 10700, "puta": 10900,
+                "merda": 10800, "cona": 10700, "buceta": 10700, "cu": 10700, "pila": 10300, "mija": 10300,
+                "bosta": 10800, "sacanagem": 10700, "nojento": 10800, "nojenta": 10800, "esporro": 10700,
+                "brocha": 10800, "paneleiro": 10800, "cornudo": 10700, "masturbação": 10200, "sexo": 10100,
+                "fode": 10900, "comer": 10200, "ganda pila": 10700, "enrabado": 10800, "orgasmo": 10100,
+                "ejacular": 10200, "fodeu": 10900, "tesão": 10100, "picha": 10300, "rola": 10300,
+                "vagabunda": 10900, "rabo": 10300, "mamou": 10200, "mamadeira": 10100,
+                // Palavras neutras/contextuais da sua lista original, agora com um boost de aura!
+                "destino": 10100, "coração": 10100, "esperança": 10200, "eternidade": 10300, "silêncio": 10100,
+                "paixão": 10200, "fado": 10100, "tempo": 10100, "lembrança": 10100, "luz": 10200,
+                "passado": 10100, "memória": 10100, "ilusão": 10100, "inocência": 10100, "sacrifício": 10200,
+                "noite": 10100, "mente": 10100, "verdade": 10100, "mentira": 10100, "dualidade": 10100,
+                "razão": 10100, "dormente": 10100, "reflexo": 10100, "essência": 10100, "identidade": 10100,
+                "consciência": 10100, "ego": 10100, "propósito": 10200, "realidade": 10100, "infinito": 10300,
+                "oráculo": 10200, "profecia": 10200, "eclipse": 10100, "névoa": 10100, "sombra da alma": 10500,
+                "fantasma": 10100, "espírito": 10200, "renascimento": 10300, "paraíso": 10300,
+                "purgatório": 10200, "julgamento": 10100, "apocalipse": 10500, "retorno": 10100
+            };
+
+            let pontuacaoTotal = 0;
+            const textoProcessado = texto.toLowerCase()
+                                        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g," ")
+                                        .split(/\s+/);
+
+            textoProcessado.forEach(palavra => {
+                if (palavrasMilhaoAura[palavra]) {
+                    pontuacaoTotal += palavrasMilhaoAura[palavra];
+                } else if (palavrasAuraMegaScore[palavra]) {
+                    pontuacaoTotal += palavrasAuraMegaScore[palavra];
+                }
+            });
+
+            resultadoAuraDiv.textContent = `Pontuação de Aura: ${pontuacaoTotal.toLocaleString('pt-BR')}`;
+            resultadoAuraDiv.className = '';
+            mensagemAuraDiv.textContent = ''; // Remove o texto de comentário
+            mensagemAuraDiv.className = 'mensagem-aura';
+        }
+    </script>
+</body>
+</html>
